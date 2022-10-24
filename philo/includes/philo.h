@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/24 10:26:07 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/24 18:23:22 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,14 @@
 typedef struct s_data
 {
 	int			nbr;
+	pthread_t	thread;
+	int			times_eaten;
 }t_data;
 
 typedef struct s_philo
 {
-	pthread_t		*thread_arr;
-	pthread_mutex_t *mutex_arr;
+	pthread_mutex_t *forks;
+	pthread_mutex_t	write;
 	t_data			*philo;
 	int				philo_nbr;
 	int				time_to_die;

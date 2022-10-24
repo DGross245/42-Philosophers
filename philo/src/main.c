@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:03:58 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/24 11:02:15 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/24 18:31:16 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 
 // number_of_philosophers time_to_die time_to_eat time_to_sleep [number_of_times_each_philosopher_must_eat]
 //[argv1 is die anzahl der philos, mutexes und forks]
+// nur mit dem write mutex hat ein philo die erlaubnis zu printen
+
 int		destroy(t_philo *philo);
 int		create(t_philo *philo);
 void	*routine(void *data);
@@ -33,12 +35,10 @@ int	main(int argc, char **argv)
 	t_philo	philo;
 
 	if (error_check(argc, argv) == -1)
-	{
-		printf("error\n");
 		return (-1);
-	}
 	init_philo(&philo, argc, argv);
-	create(&philo);
+	if (create(&philo) == -1);
+		return (-1);
 	destroy(&philo);
 	return (0);
 }
@@ -70,12 +70,11 @@ int error_check(int argc, char **argv)
 
 void init_philo(t_philo	*philo, int argc, char **argv)
 {
-	//int i;
-
-	//i = 0;
+	int i;
 	
-	//while (++i < philo->philo_nbr + 1)
-	//	philo->philo[i].nbr = i;
+	i = -1;
+	while (++i < philo->philo_nbr)
+		philo->philo[i].nbr = i + 1;
 	philo->philo_nbr = ft_atoi(argv[1]);
 	philo->time_to_die = ft_atoi(argv[2]);
 	philo->time_to_eat = ft_atoi(argv[3]);
@@ -91,15 +90,17 @@ int create(t_philo *philo)
 	int	i;
 
 	i = -1;
-	philo->thread_arr = ft_malloc(sizeof(pthread_t) * (philo->philo_nbr));
+	philo->philo = ft_malloc(sizeof(t_data) * (philo->philo_nbr));
 	while (++i < philo->philo_nbr)
-		if (pthread_create(&philo->thread_arr[i], NULL, &routine, NULL) != 0)
-			return (2);
+		if (pthread_create(&philo->philo[i].thread, NULL, &routine, NULL) != 0)
+			return (-1);
 	i = -1;
-	philo->mutex_arr = ft_malloc(sizeof(pthread_mutex_t) * (philo->philo_nbr));
+	philo->forks = ft_malloc(sizeof(pthread_mutex_t) * (philo->philo_nbr));
 	while (++i < philo->philo_nbr)
-		if (pthread_mutex_init(&philo->mutex_arr[i], NULL) != 0)
-			return (3);
+		if (pthread_mutex_init(&philo->forks[i], NULL) != 0)
+			return (-1);
+	if (pthread_mutex_init(&philo->write, NULL) != 0)
+		return (-1);
 	return (0);
 }
 
@@ -121,12 +122,14 @@ int destroy(t_philo *philo)
 	int	i;
 
 	i = -1;
-	while (philo->thread_arr[++i] != NULL)
-		if (pthread_join(philo->thread_arr[i], NULL) != 0)
-			return (4);
+	while (++i < philo->philo_nbr)
+		if (pthread_join(philo->philo[i].thread, NULL) != 0)
+			return (-1);
 	i = -1;
 	while (++i < philo->philo_nbr)
-		if (pthread_mutex_destroy(&philo->mutex_arr[i]) != 0)
-			return (5);
+		if (pthread_mutex_destroy(&philo->forks[i]) != 0)
+			return (-1);
+	if (pthread_mutex_destroy(&philo->write) != 0)
+		return (-1);
 	return (0);
 }
