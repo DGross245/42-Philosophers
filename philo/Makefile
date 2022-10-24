@@ -6,13 +6,13 @@
 #    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/22 08:53:45 by dgross            #+#    #+#              #
-#    Updated: 2022/10/22 09:14:46 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/24 08:00:11 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = main.c
+SRC = main.c utils.c
 
 OBJ_DIR = ./obj/
 
@@ -35,7 +35,7 @@ obj:
 	@mkdir -p $(OBJ_DIR)
 
 obj/%.o: src/%.c
-	@echo "$(g)Compiling ... $(w)$<$(de)"
+	@echo "$(g)Compiling $(w)$< ...$(de)"
 	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 $(NAME): obj $(OBJ)
