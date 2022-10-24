@@ -21,6 +21,13 @@
 //[argv1 is die anzahl der philos, mutexes und forks]
 // nur mit dem write mutex hat ein philo die erlaubnis zu printen
 
+// write function = mutex write locken printen wieder unlocken
+// sleep = printen und dann usleop(time_to_sleep)? i guess
+// eaten = linke rechte gabel nehmen printen(frage ist ob ob man für beie forks printen muss) print eat usleep(time_to_eat) ? beide wieder ablegen
+// think = entweder nur printen oder noch usleep
+// time ??
+// dead ?? 
+
 int		destroy(t_philo *philo);
 int		create(t_philo *philo);
 void	*routine(void *data);
