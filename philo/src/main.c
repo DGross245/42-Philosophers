@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:03:58 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/24 18:31:16 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/24 18:38:51 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,16 @@ int	main(int argc, char **argv)
 	if (error_check(argc, argv) == -1)
 		return (-1);
 	init_philo(&philo, argc, argv);
-	if (create(&philo) == -1);
+	if (create(&philo) == -1)
 		return (-1);
 	destroy(&philo);
 	return (0);
 }
 
-int error_check(int argc, char **argv)
+int	error_check(int argc, char **argv)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 1;
 	j = 0;
@@ -68,10 +68,10 @@ int error_check(int argc, char **argv)
 	return (0);
 }
 
-void init_philo(t_philo	*philo, int argc, char **argv)
+void	init_philo(t_philo	*philo, int argc, char **argv)
 {
-	int i;
-	
+	int	i;
+
 	i = -1;
 	while (++i < philo->philo_nbr)
 		philo->philo[i].nbr = i + 1;
@@ -85,7 +85,7 @@ void init_philo(t_philo	*philo, int argc, char **argv)
 		philo->max_eat = -1;
 }
 
-int create(t_philo *philo)
+int	create(t_philo *philo)
 {
 	int	i;
 
@@ -104,9 +104,9 @@ int create(t_philo *philo)
 	return (0);
 }
 
-void *routine(void *data)
+void	*routine(void *data)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)data;
 	// take folk 
@@ -114,10 +114,10 @@ void *routine(void *data)
 	// sleep
 	// think
 	// repeat
-	return(NULL);
+	return (NULL);
 }
 
-int destroy(t_philo *philo)
+int	destroy(t_philo *philo)
 {
 	int	i;
 
