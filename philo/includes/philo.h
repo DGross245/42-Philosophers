@@ -24,6 +24,7 @@ typedef struct s_data
 	int				nbr;
 	int				times_eaten;
 	pthread_t		thread;
+	int				last_eat;
 }t_data;
 
 /////////////////////////////////////////////////////////////
