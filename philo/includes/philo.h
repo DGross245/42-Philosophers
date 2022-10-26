@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/25 10:43:59 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/26 12:29:27 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 # define PHILO_H
 
 # include <pthread.h>
+# include <sys/time.h>
+# include <stdio.h>
+# ifndef ERROR
+#  define ERROR -1
+# endif
 
 /////////////////////////////////////////////////////////////
 //%%%					PHILO_STRUCT					%%%//
@@ -67,7 +72,7 @@ int					sleep_function(t_philo	*philo);
 //%%%					  DEATH_TIME			 		%%%//
 /////////////////////////////////////////////////////////////
 
-//void				time_function();
+long				time_funciton(void);
 //void				death_function();
 
 /////////////////////////////////////////////////////////////

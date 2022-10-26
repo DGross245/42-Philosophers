@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:07:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/25 10:52:28 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/26 11:29:34 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,15 @@ int	error_check(int argc, char **argv)
 	i = 1;
 	j = 0;
 	if (argc < 5)
-		return (-1);
+		return (ERROR);
 	if (argc > 6)
-		return (-1);
+		return (ERROR);
 	while (argv[i] != NULL)
 	{
 		j = 0;
 		while (argv[i][j] != '\0')
-		{
-			if (ft_isdigit(argv[i][j]) == 0)
-				return (-1);
-			j++;	
-		}
+			if (ft_isdigit(argv[i][j++]) == 0)
+				return (ERROR);
 		i++;
 	}
 	return (0);
