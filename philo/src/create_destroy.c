@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/25 08:06:52 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/26 14:44:57 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,20 @@ int	create(t_philo *philo)
 	int	i;
 
 	i = -1;
-	philo->philo = ft_malloc(sizeof(t_data) * (philo->philo_nbr));
-	while (++i < philo->philo_nbr)
-		if (pthread_create(&philo->philo[i].thread, NULL, &routine, NULL) != 0)
-			return (-1);
-	i = -1;
 	philo->forks = ft_malloc(sizeof(pthread_mutex_t) * (philo->philo_nbr));
+	if (philo->forks == NULL)
+		return (ERROR);
 	while (++i < philo->philo_nbr)
 		if (pthread_mutex_init(&philo->forks[i], NULL) != 0)
-			return (-1);
+			return (ERROR);
 	if (pthread_mutex_init(&philo->write, NULL) != 0)
-		return (-1);
+		return (ERROR);
+	i = -1;
+	if (philo->philo == NULL)
+		return (ERROR);
+	while (++i < philo->philo_nbr)
+		if (pthread_create(&philo->philo[i].thread, NULL, &routine, NULL) != 0)
+			return (ERROR);
 	return (0);
 }
 
@@ -39,13 +42,13 @@ int	destroy(t_philo *philo)
 	i = -1;
 	while (++i < philo->philo_nbr)
 		if (pthread_join(philo->philo[i].thread, NULL) != 0)
-			return (-1);
+			return (ERROR);
 	i = -1;
 	while (++i < philo->philo_nbr)
 		if (pthread_mutex_destroy(&philo->forks[i]) != 0)
-			return (-1);
+			return (ERROR);
 	if (pthread_mutex_destroy(&philo->write) != 0)
-		return (-1);
+		return (ERROR);
 	return (0);
 }
 
@@ -54,6 +57,7 @@ void	init_philo(t_philo	*philo, int argc, char **argv)
 	int	i;
 
 	i = -1;
+	philo->philo = ft_malloc(sizeof(t_data) * (philo->philo_nbr));
 	while (++i < philo->philo_nbr)
 		philo->philo[i].nbr = i + 1;
 	philo->philo_nbr = ft_atoi(argv[1]);
@@ -64,4 +68,5 @@ void	init_philo(t_philo	*philo, int argc, char **argv)
 		philo->max_eat = ft_atoi(argv[5]);
 	else
 		philo->max_eat = -1;
+	philo->death = 0;
 }
