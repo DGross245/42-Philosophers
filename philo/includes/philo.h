@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/26 12:29:27 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/27 17:46:52 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,19 +24,21 @@
 //%%%					PHILO_STRUCT					%%%//
 /////////////////////////////////////////////////////////////
 
-typedef struct s_data
+typedef struct s_philo
 {
 	int				nbr;
 	int				times_eaten;
-	pthread_t		thread;
 	int				last_eat;
-}t_data;
+	int				left;
+	int				right;
+	pthread_t		thread;
+}t_philo;
 
 /////////////////////////////////////////////////////////////
 //%%%					MAIN_STRUCT						%%%//
 /////////////////////////////////////////////////////////////
 
-typedef struct s_philo
+typedef struct s_data
 {
 	int				philo_nbr;
 	int				time_to_die;
@@ -44,10 +46,10 @@ typedef struct s_philo
 	int				time_to_sleep;
 	int				max_eat;
 	int				death;
-	t_data			*philo;
+	t_philo			*philo;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
-}t_philo;
+}t_data;
 
 /////////////////////////////////////////////////////////////
 //%%%						  UTILS						%%%//
@@ -62,11 +64,11 @@ void				*ft_malloc(size_t size);
 //%%%						ROUTINE						%%%//
 /////////////////////////////////////////////////////////////
 
-void				*routine(void *data);
-int					write_function(t_philo	*philo, char *str);
-int					eat_function(t_philo *philo);
-int					think_function(t_philo	*philo);
-int					sleep_function(t_philo	*philo);
+void				*routine(void *philo);
+int					write_function(t_data	*data, char *str);
+int					eat_function(t_data *data);
+int					think_function(t_data	*data);
+int					sleep_function(t_data	*data);
 
 /////////////////////////////////////////////////////////////
 //%%%					  DEATH_TIME			 		%%%//
@@ -79,9 +81,9 @@ long				time_funciton(void);
 //%%%					CREATE_DESTROY					%%%//
 /////////////////////////////////////////////////////////////
 
-int					create(t_philo *philo);
-int					destroy(t_philo *philo);
-void				init_philo(t_philo	*philo, int argc, char **argv);
+int					create(t_data *data);
+int					destroy(t_data *data);
+void				init_philo(t_data	*data, int argc, char **argv);
 
 /////////////////////////////////////////////////////////////
 //%%%						ERROR						%%%//

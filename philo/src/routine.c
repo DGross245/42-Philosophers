@@ -6,7 +6,7 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:09:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/26 14:53:48 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/27 17:52:49 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	*routine(void *data)
+void	*routine(void *philo)
 {
-	t_philo	*philo;
+	t_data	*philo;
 
-	philo = (t_philo *)data;
-	//philo->philo->times_eaten = 0; //philo->philo[i].times_eaten; überarbeiten
-	while (1)
+	philo = (t_philo *)philo;
+	philo->times_eaten = time_funciton();
+	while (philo->death != 1)
 	{
 		if (eat_function(philo) == ERROR)
 			break ;
@@ -56,15 +56,15 @@ int	think_function(t_philo	*philo)
 
 int	eat_function(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->forks[philo->philo.nbr]);
+	pthread_mutex_lock(&philo->philo[i].nbr]);
 	write_function(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->forks[philo->philo->nbr + 1]);
+	pthread_mutex_lock(&philo->forks[philo->philo[0].nbr + 1]);
 	write_function(philo, "has taken a fork");
 	write_function(philo, "is eating");
 	usleep(philo->time_to_eat * 1000);
 	philo->philo->times_eaten++;
 	philo->philo->last_eat = time_funciton();
-	pthread_mutex_lock(&philo->forks[philo->philo->nbr]);
-	pthread_mutex_lock(&philo->forks[philo->philo->nbr + 1]);
+	pthread_mutex_lock(&philo->forks[philo->philo[0].nbr]);
+	pthread_mutex_lock(&philo->forks[philo->philo[0].nbr + 1]);
 	return (0);
 }
