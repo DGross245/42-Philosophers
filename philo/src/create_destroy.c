@@ -53,7 +53,7 @@ int	destroy(t_data *data)
 	return (0);
 }
 
-void	init_data(t_data *data, int argc, char **argv)
+void	init_philo(t_data *data, int argc, char **argv)
 {
 	int	i;
 
