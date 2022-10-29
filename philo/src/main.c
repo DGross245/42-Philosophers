@@ -26,7 +26,9 @@ int	main(int argc, char **argv)
 
 	if (error_check(argc, argv) == ERROR)
 		return (ERROR);
+	printf("kekw\n");
 	init_philo(&data, argc, argv);
+	printf("kekw\n");
 	if (create(&data) == ERROR)
 		return (ERROR);
 	if (destroy(&data) == ERROR)

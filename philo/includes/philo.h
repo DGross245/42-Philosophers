@@ -32,6 +32,7 @@ typedef struct s_philo
 	int				left;
 	int				right;
 	pthread_t		thread;
+	struct s_data	*rules;
 }t_philo;
 
 /////////////////////////////////////////////////////////////
@@ -65,10 +66,10 @@ void				*ft_malloc(size_t size);
 /////////////////////////////////////////////////////////////
 
 void				*routine(void *philo);
-int					write_function(t_data	*data, char *str);
-int					eat_function(t_data *data);
-int					think_function(t_data	*data);
-int					sleep_function(t_data	*data);
+int					write_function(t_philo *philo, t_data	*data, char *str);
+int					eat_function(t_philo *philo, t_data *data);
+int					think_function(t_philo *philo, t_data	*data);
+int					sleep_function(t_philo *philo, t_data	*data);
 
 /////////////////////////////////////////////////////////////
 //%%%					  DEATH_TIME			 		%%%//

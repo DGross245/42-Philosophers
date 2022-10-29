@@ -14,57 +14,61 @@
 #include <unistd.h>
 #include <stdio.h>
 
-void	*routine(void *philo)
+void	*routine(void *param)
 {
-	t_data	*philo;
+	t_philo	*philo;
+	t_data *data;
 
-	philo = (t_philo *)philo;
+	philo = (t_philo *)param;
+	data = (t_data *)philo->rules;
+	printf("kekw\n");
 	philo->times_eaten = time_funciton();
-	while (philo->death != 1)
+	while (data->death != 1)
 	{
-		if (eat_function(philo) == ERROR)
+		printf("kekw\n");
+		if (eat_function(philo, data) == ERROR)
 			break ;
-		if (sleep_function(philo) == ERROR)
+		if (sleep_function(philo, data) == ERROR)
 			break ;
-		if (think_function(philo) == ERROR)
+		if (think_function(philo, data) == ERROR)
 			break ;
-		philo->death = 1;
+		data->death = 1;
 	}
 	return (NULL);
 }
 
-int	write_function(t_philo	*philo, char *str)
+int	write_function(t_philo	*philo, t_data *data, char *str)
 {
-	pthread_mutex_lock(&philo->write);
-	printf("%i %i %s\n", 1, philo->philo->nbr, str);
-	pthread_mutex_unlock(&philo->write);
+	pthread_mutex_lock(&data->write);
+	printf("%i %i %s\n", 1, philo->nbr, str);
+	pthread_mutex_unlock(&data->write);
 	return (0);
 }
 
-int	sleep_function(t_philo	*philo)
+int	sleep_function(t_philo	*philo, t_data *data)
 {
-	write_function(philo, "is eating");
-	usleep(philo->time_to_sleep * 1000);
+	write_function(philo, data, "is eating");
+	usleep(data->time_to_sleep * 1000);
 	return (0);
 }
 
-int	think_function(t_philo	*philo)
+int	think_function(t_philo	*philo, t_data *data)
 {
-	write_function(philo, "is thinking");
+	write_function(philo, data, "is thinking");
 	return (0);
 }
 
-int	eat_function(t_philo *philo)
+int	eat_function(t_philo *philo, t_data *data)
 {
-	pthread_mutex_lock(&philo->philo[i].nbr]);
-	write_function(philo, "has taken a fork");
-	pthread_mutex_lock(&philo->forks[philo->philo[0].nbr + 1]);
-	write_function(philo, "has taken a fork");
-	write_function(philo, "is eating");
-	usleep(philo->time_to_eat * 1000);
-	philo->philo->times_eaten++;
-	philo->philo->last_eat = time_funciton();
-	pthread_mutex_lock(&philo->forks[philo->philo[0].nbr]);
-	pthread_mutex_lock(&philo->forks[philo->philo[0].nbr + 1]);
+	pthread_mutex_lock(&data->forks[philo->nbr]);
+	write_function(philo, data, "has taken a fork");
+	pthread_mutex_lock(&data->forks[philo->nbr + 1]);
+	write_function(philo, data, "has taken a fork");
+	write_function(philo, data, "is eating");
+	usleep(data->time_to_eat * 1000);
+	philo->times_eaten++;
+	philo->last_eat = time_funciton();
+	pthread_mutex_lock(&data->forks[philo->nbr]);
+	pthread_mutex_lock(&data->forks[philo->nbr + 1]);
 	return (0);
 }
