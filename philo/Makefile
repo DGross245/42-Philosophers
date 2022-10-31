@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
+#    By: dna <dna@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/22 08:53:45 by dgross            #+#    #+#              #
-#    Updated: 2022/10/25 10:52:16 by dgross           ###   ########.fr        #
+#    Updated: 2022/10/29 17:50:38 by dna              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
 
-SRC = main.c utils.c create_destroy.c death_time.c error.c routine.c
+SRC = main.c utils.c utils2.c create_destroy.c death_time.c error.c routine.c
 
 OBJ_DIR = ./obj/
 

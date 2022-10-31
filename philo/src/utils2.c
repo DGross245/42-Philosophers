@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 08:07:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/30 15:41:50 by dna              ###   ########.fr       */
+/*   Created: 2022/10/29 17:41:22 by dna               #+#    #+#             */
+/*   Updated: 2022/10/29 17:49:56 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <unistd.h>
+#include <stdio.h>
 
-int	error_check(int argc, char **argv)
+void	entrance_blocker(t_philo *philo)
 {
-	int	i;
-	int	j;
-
-	i = 1;
-	j = 0;
-	if (argc < 5)
-		return (ERROR);
-	if (argc > 6)
-		return (ERROR);
-	while (argv[i] != NULL)
-	{
-		j = 0;
-		while (argv[i][j] != '\0')
-			if (ft_isdigit(argv[i][j++]) == 0)
-				return (ERROR);
-		i++;
-	}
-	return (0);
+	usleep(philo->data->time_to_eat * 1000);
 }

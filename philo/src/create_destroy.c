@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   create_destroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/27 17:56:14 by dgross           ###   ########.fr       */
+/*   Updated: 2022/10/31 23:14:20 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <pthread.h>
+#include <unistd.h>
 
 int	create(t_data *data)
 {
@@ -27,12 +28,12 @@ int	create(t_data *data)
 	if (pthread_mutex_init(&data->write, NULL) != 0)
 		return (ERROR);
 	i = -1;
-	if (data->philo == NULL)
-		return (ERROR);
+	data->start = time_funciton();
 	while (++i < data->philo_nbr)
 		if (pthread_create(&data->philo[i].thread, NULL, \
 		&routine, &data->philo[i]) != 0)
 			return (ERROR);
+	death_function(data);
 	return (0);
 }
 
@@ -53,21 +54,38 @@ int	destroy(t_data *data)
 	return (0);
 }
 
-void	init_philo(t_data *data, int argc, char **argv)
+void	init_data(t_data *data, int argc, char **argv)
 {
-	int	i;
-
-	i = -1;
-	data->philo = ft_malloc(sizeof(t_philo) * (data->philo_nbr));
-	while (++i < data->philo_nbr)
-		data->philo[i].nbr = i + 1;
 	data->philo_nbr = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	data->start = 0;
 	if (argc == 6)
 		data->max_eat = ft_atoi(argv[5]);
 	else
 		data->max_eat = -1;
 	data->death = 0;
+	init_philo(data);
+}
+
+void	init_philo(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	data->philo = ft_malloc(sizeof(t_philo) * (data->philo_nbr));
+	while (++i < data->philo_nbr - 1)
+	{
+		data->philo[i].nbr = i + 1;
+		data->philo[i].data = data;
+		data->philo[i].left = i;
+		data->philo[i].right = i + 1;
+		data->philo[i].last_eat = 0;
+	}
+	data->philo[i].nbr = i + 1;
+	data->philo[i].data = data;
+	data->philo[i].left = i;
+	data->philo[i].right = 0;
+	data->philo[i].last_eat = 0;
 }
