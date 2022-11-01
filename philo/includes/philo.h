@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 11:32:32 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 18:07:29 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int					ft_atoi(const char	*str);
 int					ft_isdigit(int c);
 void				ft_bzero(void *s, size_t n);
 void				*ft_malloc(size_t size);
+int					isnumber(const char *str, int i, \
+					int sign, long int result1);
 
 /////////////////////////////////////////////////////////////
 //%%%						ROUTINE						%%%//
@@ -87,8 +89,8 @@ long				get_time_dif(long time, t_data *data);
 
 int					create(t_data *data);
 int					destroy(t_data *data);
-void				init_data(t_data	*data, int argc, char **argv);
-void				init_philo(t_data *data);
+int					init_data(t_data	*data, int argc, char **argv);
+int					init_philo(t_data *data);
 
 /////////////////////////////////////////////////////////////
 //%%%						ERROR						%%%//
@@ -96,7 +98,8 @@ void				init_philo(t_data *data);
 
 int					error_check(int argc, char **argv);
 void				entrance_blocker(t_philo *philo);
+int					max_check(char **argv);
 
-void				ft_usleep(long int time_in_ms);
+void				ft_usleep(long time);
 
 #endif

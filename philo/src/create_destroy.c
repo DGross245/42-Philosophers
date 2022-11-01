@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 10:09:58 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 18:18:03 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ int	destroy(t_data *data)
 	return (0);
 }
 
-void	init_data(t_data *data, int argc, char **argv)
+int	init_data(t_data *data, int argc, char **argv)
 {
+	if (max_check(argv) == ERROR)
+		return (ERROR);
 	data->philo_nbr = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -68,15 +70,19 @@ void	init_data(t_data *data, int argc, char **argv)
 	else
 		data->max_eat = -1;
 	data->death = 0;
-	init_philo(data);
+	if (init_philo(data) == ERROR)
+		return (ERROR);
+	return (0);
 }
 
-void	init_philo(t_data *data)
+int	init_philo(t_data *data)
 {
 	int	i;
 
 	i = -1;
 	data->philo = ft_malloc(sizeof(t_philo) * (data->philo_nbr));
+	if (data->philo == NULL)
+		return (ERROR);
 	while (++i < data->philo_nbr - 1)
 	{
 		data->philo[i].nbr = i + 1;
@@ -90,4 +96,18 @@ void	init_philo(t_data *data)
 	data->philo[i].left = i;
 	data->philo[i].right = 0;
 	data->philo[i].last_eat = 0;
+	return (0);
+}
+
+int	max_check(char **argv)
+{
+	int	i;
+
+	i = 0;
+	while (argv[++i] != NULL)
+	{
+		if (ft_atoi(argv[i]) <= 0)
+			return (ERROR);
+	}
+	return (0);
 }
