@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:09:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 11:09:24 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 11:43:25 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void	*routine(void *param)
 
 int	write_function(int nbr, t_data *data, char *str)
 {
+	pthread_mutex_lock(&data->write);
 	if (data->death != 1)
 	{
-		pthread_mutex_lock(&data->write);
 		printf("%li %i %s\n", time_function() - data->start, nbr, str);
-		pthread_mutex_unlock(&data->write);
 	}
+	pthread_mutex_unlock(&data->write);
 	return (0);
 }
 
