@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/31 23:46:54 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 11:11:19 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int					sleep_function(t_philo *philo, t_data	*data);
 //%%%					  DEATH_TIME			 		%%%//
 /////////////////////////////////////////////////////////////
 
-long				time_funciton(void);
+long				time_function(void);
 void				death_function(t_data *data);
 int					food_checker(t_data *data);
 long				get_time_dif(long time, t_data *data);

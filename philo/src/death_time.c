@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 10:15:00 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/31 23:46:32 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 11:11:58 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <unistd.h>
 #include <stdio.h>
 
-long	time_funciton(void)
+long	time_function(void)
 {
 	struct timeval	time;
 
@@ -32,7 +32,6 @@ void	death_function(t_data *data)
 	while (1)
 	{
 		i = -1;
-		usleep(data->time_to_eat);
 		while (++i < data->philo_nbr && data->death != 1)
 		{
 			time = get_time_dif(data->philo[i].last_eat, data);
@@ -50,11 +49,13 @@ void	death_function(t_data *data)
 	}
 }
 
-long	get_time_dif(long time, t_data	*data)
+long	get_time_dif(long time, t_data *data)
 {
-	if (time > 0 || data->philo_nbr == 1)
-		return (time_funciton() - time);
-	return (0);
+	if (time > 0)
+		return (time_function() - time);
+	else
+		time = time_function() - data->start;
+	return (time);
 }
 
 int	food_checker(t_data *data)
