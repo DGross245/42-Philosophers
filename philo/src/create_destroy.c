@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/31 23:14:20 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 10:09:58 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ int	create(t_data *data)
 	if (pthread_mutex_init(&data->write, NULL) != 0)
 		return (ERROR);
 	i = -1;
-	data->start = time_funciton();
+	data->start = time_function();
 	while (++i < data->philo_nbr)
+	{
 		if (pthread_create(&data->philo[i].thread, NULL, \
 		&routine, &data->philo[i]) != 0)
 			return (ERROR);
+	}
 	death_function(data);
 	return (0);
 }
