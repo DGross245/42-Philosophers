@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:09:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 11:43:25 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 18:19:20 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ int	eat_function(t_philo *philo, t_data *data)
 	pthread_mutex_lock(&data->forks[philo->left]);
 	write_function(philo->nbr, data, "has taken a fork");
 	if (data->philo_nbr == 1)
+	{
+		pthread_mutex_unlock(&data->forks[philo->left]);
 		return (ERROR);
+	}
 	pthread_mutex_lock(&data->forks[philo->right]);
 	write_function(philo->nbr, data, "has taken a fork");
 	write_function(philo->nbr, data, "is eating");

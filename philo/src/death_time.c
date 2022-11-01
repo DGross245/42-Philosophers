@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 10:15:00 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 11:47:31 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 17:36:09 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ void	death_function(t_data *data)
 			time = get_time_dif(data->philo[i].last_eat, data);
 			if (time >= data->time_to_die)
 			{
-				write_function(data->philo[i].nbr, data, "\033[0;31mis dead");
+				write_function(data->philo[i].nbr, data, \
+				"\033[0;31mis dead\033[0m");
 				data->death = 1;
 				break ;
 			}		

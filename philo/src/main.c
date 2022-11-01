@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:03:58 by dgross            #+#    #+#             */
-/*   Updated: 2022/10/31 23:08:03 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 18:16:49 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,24 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	if (error_check(argc, argv) == ERROR)
+	{
+		printf("\033[0;31mERROR\033[0m\n");
 		return (ERROR);
-	init_data(&data, argc, argv);
+	}
+	if (init_data(&data, argc, argv) == ERROR)
+	{
+		printf("\033[0;31mERROR\033[0m\n");
+		return (ERROR);
+	}
 	if (create(&data) == ERROR)
+	{
+		printf("\033[0;31mERROR\033[0m\n");
 		return (ERROR);
+	}
 	if (destroy(&data) == ERROR)
+	{
+		printf("\033[0;31mERROR\033[0m\n");
 		return (ERROR);
+	}
 	return (0);
 }

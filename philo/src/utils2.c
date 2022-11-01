@@ -6,7 +6,7 @@
 /*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:41:22 by dna               #+#    #+#             */
-/*   Updated: 2022/11/01 13:30:53 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/01 16:41:47 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	entrance_blocker(t_philo *philo)
 	ft_usleep(philo->data->time_to_eat);
 }
 
-void	ft_usleep(long int time_in_ms)
+void	ft_usleep(long time)
 {
-	long int	start_time;
+	long	now;
 
-	start_time = time_function();
-	while ((time_function() - start_time) < time_in_ms)
+	now = time_function();
+	while ((time_function() - now) < time)
 		usleep(200);
 }
