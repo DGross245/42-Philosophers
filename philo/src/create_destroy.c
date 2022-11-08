@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   create_destroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 18:18:03 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/08 15:38:07 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <pthread.h>
+//#include <pthread.h>
 #include <unistd.h>
 
 int	create(t_data *data)
@@ -27,6 +27,8 @@ int	create(t_data *data)
 			return (ERROR);
 	if (pthread_mutex_init(&data->write, NULL) != 0)
 		return (ERROR);
+	if (pthread_mutex_init(&data->check, NULL) != 0)
+		return (ERROR);
 	i = -1;
 	data->start = time_function();
 	while (++i < data->philo_nbr)
@@ -34,6 +36,7 @@ int	create(t_data *data)
 		if (pthread_create(&data->philo[i].thread, NULL, \
 		&routine, &data->philo[i]) != 0)
 			return (ERROR);
+		data->philo[i].last_eat = time_function();
 	}
 	death_function(data);
 	return (0);
@@ -52,6 +55,8 @@ int	destroy(t_data *data)
 		if (pthread_mutex_destroy(&data->forks[i]) != 0)
 			return (ERROR);
 	if (pthread_mutex_destroy(&data->write) != 0)
+		return (ERROR);
+	if (pthread_mutex_destroy(&data->check) != 0)
 		return (ERROR);
 	return (0);
 }
@@ -103,7 +108,9 @@ int	max_check(char **argv)
 {
 	int	i;
 
-	i = 0;
+	i = 1;
+	if (ft_atoi(argv[1]) <= 0 || ft_atoi(argv[1]) > 250)
+		return (ERROR);
 	while (argv[++i] != NULL)
 	{
 		if (ft_atoi(argv[i]) <= 0)

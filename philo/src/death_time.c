@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   death_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 10:15:00 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 17:36:09 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/08 14:48:59 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <sys/time.h>
 #include <unistd.h>
-#include <stdio.h>
+#include <pthread.h>
 
 long	time_function(void)
 {
@@ -26,37 +26,27 @@ long	time_function(void)
 void	death_function(t_data *data)
 {
 	int		i;
-	long	time;
 
-	time = 0;
 	while (1)
 	{
 		i = -1;
 		while (++i < data->philo_nbr && data->death != 1)
 		{
-			time = get_time_dif(data->philo[i].last_eat, data);
-			if (time >= data->time_to_die)
+			pthread_mutex_lock(&data->check);
+			if ((time_function() - data->philo[i].last_eat) > data->time_to_die)
 			{
 				write_function(data->philo[i].nbr, data, \
 				"\033[0;31mis dead\033[0m");
 				data->death = 1;
 				break ;
-			}		
+			}	
+			pthread_mutex_unlock(&data->check);
 		}
 		if (data->death == 1)
 			break ;
 		if (data->max_eat != -1 && food_checker(data) == data->philo_nbr)
 			break ;
 	}
-}
-
-long	get_time_dif(long time, t_data *data)
-{
-	if (time > 0)
-		return (time_function() - time);
-	else
-		time = time_function() - data->start;
-	return (time);
 }
 
 int	food_checker(t_data *data)

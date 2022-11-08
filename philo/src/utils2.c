@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 17:41:22 by dna               #+#    #+#             */
-/*   Updated: 2022/11/01 16:41:47 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/08 14:39:22 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <unistd.h>
-#include <stdio.h>
 
 void	entrance_blocker(t_philo *philo)
 {
@@ -23,6 +22,7 @@ void	ft_usleep(long time)
 {
 	long	now;
 
+	now = 0;
 	now = time_function();
 	while ((time_function() - now) < time)
 		usleep(200);

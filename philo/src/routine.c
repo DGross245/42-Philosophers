@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:09:19 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 18:19:20 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/08 14:54:05 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	*routine(void *param)
 				break ;
 			if (think_function(philo, data) == ERROR)
 				break ;
+			usleep(500);
 		}
 	}
 	return (NULL);
@@ -43,9 +44,7 @@ int	write_function(int nbr, t_data *data, char *str)
 {
 	pthread_mutex_lock(&data->write);
 	if (data->death != 1)
-	{
 		printf("%li %i %s\n", time_function() - data->start, nbr, str);
-	}
 	pthread_mutex_unlock(&data->write);
 	return (0);
 }
@@ -75,9 +74,11 @@ int	eat_function(t_philo *philo, t_data *data)
 	pthread_mutex_lock(&data->forks[philo->right]);
 	write_function(philo->nbr, data, "has taken a fork");
 	write_function(philo->nbr, data, "is eating");
-	philo->last_eat = time_function();
-	ft_usleep(data->time_to_eat);
+	pthread_mutex_lock(&data->eat);
 	philo->times_eaten++;
+	philo->last_eat = time_function();
+	pthread_mutex_unlock(&data->eat);
+	ft_usleep(data->time_to_eat);
 	pthread_mutex_unlock(&data->forks[philo->left]);
 	pthread_mutex_unlock(&data->forks[philo->right]);
 	return (0);
