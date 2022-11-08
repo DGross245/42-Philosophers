@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dna <dna@student.42.fr>                    +#+  +:+       +#+         #
+#    By: dgross <dgross@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/22 08:53:45 by dgross            #+#    #+#              #
-#    Updated: 2022/10/29 17:50:38 by dna              ###   ########.fr        #
+#    Updated: 2022/11/08 16:28:20 by dgross           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ OBJ = $(addprefix $(OBJ_DIR),$(SRC:.c=.o))
 
 CC = cc
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -pthread -fsanitize=thread
 
 INCLUDES = -I./includes
 
