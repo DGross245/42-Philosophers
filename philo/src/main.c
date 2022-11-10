@@ -6,12 +6,13 @@
 /*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:03:58 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/08 11:58:59 by dgross           ###   ########.fr       */
+/*   Updated: 2022/11/10 15:43:32 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int	main(int argc, char **argv)
 {
@@ -34,8 +35,9 @@ int	main(int argc, char **argv)
 	}
 	if (destroy(&data) == ERROR)
 	{
-		printf("\033[0;31m1ERROR\033[0m\n");
+		printf("\033[0;31mERROR\033[0m\n");
 		return (ERROR);
 	}
+	free_function(&data);
 	return (0);
 }

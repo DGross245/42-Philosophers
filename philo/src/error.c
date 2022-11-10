@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:07:09 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/01 17:14:18 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/10 15:43:48 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+#include <stdlib.h>
 
 int	error_check(int argc, char **argv)
 {
@@ -31,5 +32,12 @@ int	error_check(int argc, char **argv)
 				return (ERROR);
 		i++;
 	}
+	return (0);
+}
+
+int	free_function(t_data *data)
+{
+	free(data->forks);
+	free(data->philo);
 	return (0);
 }

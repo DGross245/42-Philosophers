@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   create_destroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/10 09:31:36 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/10 14:14:05 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-//#include <pthread.h>
 #include <unistd.h>
 
 int	create(t_data *data)
@@ -25,21 +24,15 @@ int	create(t_data *data)
 	while (++i < data->philo_nbr)
 		if (pthread_mutex_init(&data->forks[i], NULL) != 0)
 			return (ERROR);
-	if (pthread_mutex_init(&data->write, NULL) != 0)
-		return (ERROR);
-	if (pthread_mutex_init(&data->check, NULL) != 0)
-		return (ERROR);
-	if (pthread_mutex_init(&data->eat, NULL) != 0)
-		return (ERROR);
-	if (pthread_mutex_init(&data->dead, NULL) != 0)
-		return (ERROR);
-	i = -1;
+	create_mutex(data);
 	pthread_mutex_lock(&data->write);
+	i = -1;
 	while (++i < data->philo_nbr)
 	{
 		if (pthread_create(&data->philo[i].thread, NULL, \
 		&routine, &data->philo[i]) != 0)
 			return (ERROR);
+		data->philo[i].last_eat = time_function();
 	}
 	data->start = time_function();
 	pthread_mutex_unlock(&data->write);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/09 13:57:54 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/10 16:02:19 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,25 +58,30 @@ typedef struct s_data
 }t_data;
 
 /////////////////////////////////////////////////////////////
-//%%%						  UTILS						%%%//
+//%%%					UTILS + UTILS2					%%%//
 /////////////////////////////////////////////////////////////
 
-int					ft_atoi(const char	*str);
-int					ft_isdigit(int c);
-void				ft_bzero(void *s, size_t n);
 void				*ft_malloc(size_t size);
 int					isnumber(const char *str, int i, \
 					int sign, long int result1);
+int					ft_atoi(const char	*str);
+void				ft_bzero(void *s, size_t n);
+int					ft_isdigit(int c);
+
+void				entrance_blocker(t_philo *philo);
+void				ft_usleep(long time);
 
 /////////////////////////////////////////////////////////////
-//%%%						ROUTINE						%%%//
+//%%%				ROUTINE	+ FUNCTIONS					%%%//
 /////////////////////////////////////////////////////////////
 
-void				*routine(void *philo);
+void				*routine(void *param);
+
 int					write_function(int nbr, t_data	*data, char *str);
-int					eat_function(t_philo *philo, t_data *data);
-int					think_function(t_philo *philo, t_data	*data);
 int					sleep_function(t_philo *philo, t_data	*data);
+int					think_function(t_philo *philo, t_data	*data);
+void				eat(t_philo *philo, t_data *data);
+int					eat_function(t_philo *philo, t_data *data);
 
 /////////////////////////////////////////////////////////////
 //%%%					  DEATH_TIME			 		%%%//
@@ -85,26 +90,24 @@ int					sleep_function(t_philo *philo, t_data	*data);
 long				time_function(void);
 void				death_function(t_data *data);
 int					food_checker(t_data *data);
-long				get_time_dif(long time, t_data *data);
 
 /////////////////////////////////////////////////////////////
-//%%%					CREATE_DESTROY					%%%//
+//%%%			CREATE_DESTROY + CREATE_DESTROY2		%%%//
 /////////////////////////////////////////////////////////////
 
 int					create(t_data *data);
 int					destroy(t_data *data);
 int					init_data(t_data	*data, int argc, char **argv);
 int					init_philo(t_data *data);
+int					max_check(char **argv);
+
+int					create_mutex(t_data *data);
 
 /////////////////////////////////////////////////////////////
 //%%%						ERROR						%%%//
 /////////////////////////////////////////////////////////////
 
 int					error_check(int argc, char **argv);
-void				entrance_blocker(t_philo *philo);
-int					max_check(char **argv);
-
-void				ft_usleep(long time);
-void				eat(t_philo *philo, t_data *data);
+int					free_function(t_data *data);
 
 #endif
