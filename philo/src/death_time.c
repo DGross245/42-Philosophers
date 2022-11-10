@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   death_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 10:15:00 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/10 09:36:11 by dna              ###   ########.fr       */
+/*   Updated: 2022/11/10 13:59:12 by dgross           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,23 +26,21 @@ long	time_function(void)
 void	death_function(t_data *data)
 {
 	int		i;
-	long	time;
 
 	while (1)
 	{
 		i = -1;
-		ft_usleep(data->time_to_die);
 		while (++i < data->philo_nbr && data->death != 1)
 		{
 			pthread_mutex_lock(&data->eat);
-			time = time_function() - data->philo[i].last_eat;
-			if (time> data->time_to_die)
+			if ((time_function() - data->philo[i].last_eat) > data->time_to_die)
 			{
 				write_function(data->philo[i].nbr, data, \
 				"\033[0;31mis dead\033[0m");
 				pthread_mutex_lock(&data->dead);
 				data->death = 1;
 				pthread_mutex_unlock(&data->dead);
+				pthread_mutex_unlock(&data->eat);
 				break ;
 			}	
 			pthread_mutex_unlock(&data->eat);
@@ -56,10 +54,9 @@ void	death_function(t_data *data)
 
 int	food_checker(t_data *data)
 {
-		int	i;
+	int	i;
 
 	i = 0;
-	
 	while (i < data->philo_nbr)
 	{
 		pthread_mutex_lock(&(data->eat));
