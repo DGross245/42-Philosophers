@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 09:05:56 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/08 14:47:50 by dgross           ###   ########.fr       */
+/*   Updated: 2022/11/09 13:57:54 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_philo
 	int				left;
 	int				right;
 	pthread_t		thread;
+	pthread_mutex_t	eat;
 	struct s_data	*data;
 }t_philo;
 
@@ -53,6 +54,7 @@ typedef struct s_data
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	write;
 	pthread_mutex_t	eat;
+	pthread_mutex_t	dead;
 }t_data;
 
 /////////////////////////////////////////////////////////////
@@ -103,5 +105,6 @@ void				entrance_blocker(t_philo *philo);
 int					max_check(char **argv);
 
 void				ft_usleep(long time);
+void				eat(t_philo *philo, t_data *data);
 
 #endif

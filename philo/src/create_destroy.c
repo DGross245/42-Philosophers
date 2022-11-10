@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_destroy.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dgross <dgross@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dna <dna@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 08:01:25 by dgross            #+#    #+#             */
-/*   Updated: 2022/11/08 15:38:07 by dgross           ###   ########.fr       */
+/*   Updated: 2022/11/10 09:31:36 by dna              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,20 @@ int	create(t_data *data)
 		return (ERROR);
 	if (pthread_mutex_init(&data->check, NULL) != 0)
 		return (ERROR);
+	if (pthread_mutex_init(&data->eat, NULL) != 0)
+		return (ERROR);
+	if (pthread_mutex_init(&data->dead, NULL) != 0)
+		return (ERROR);
 	i = -1;
-	data->start = time_function();
+	pthread_mutex_lock(&data->write);
 	while (++i < data->philo_nbr)
 	{
 		if (pthread_create(&data->philo[i].thread, NULL, \
 		&routine, &data->philo[i]) != 0)
 			return (ERROR);
-		data->philo[i].last_eat = time_function();
 	}
+	data->start = time_function();
+	pthread_mutex_unlock(&data->write);
 	death_function(data);
 	return (0);
 }
@@ -57,6 +62,10 @@ int	destroy(t_data *data)
 	if (pthread_mutex_destroy(&data->write) != 0)
 		return (ERROR);
 	if (pthread_mutex_destroy(&data->check) != 0)
+		return (ERROR);
+	if (pthread_mutex_destroy(&data->eat) != 0)
+		return (ERROR);
+	if (pthread_mutex_destroy(&data->dead) != 0)
 		return (ERROR);
 	return (0);
 }
@@ -95,12 +104,14 @@ int	init_philo(t_data *data)
 		data->philo[i].left = i;
 		data->philo[i].right = i + 1;
 		data->philo[i].last_eat = 0;
+		data->philo[i].times_eaten = 0;
 	}
 	data->philo[i].nbr = i + 1;
 	data->philo[i].data = data;
 	data->philo[i].left = i;
 	data->philo[i].right = 0;
 	data->philo[i].last_eat = 0;
+	data->philo[i].times_eaten = 0;
 	return (0);
 }
 
